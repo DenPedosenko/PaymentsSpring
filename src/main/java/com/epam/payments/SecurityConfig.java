@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 
 @Configuration
@@ -37,18 +38,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	 @Override
 	    protected void configure(HttpSecurity http) throws Exception {
 		 http
-         .authorizeRequests()
-             .antMatchers("/resources/**", "/registration").permitAll()
-             .anyRequest().authenticated()
-             .and()
+		 .authorizeRequests()
+		 .antMatchers("/login*").permitAll()
+		 .anyRequest().authenticated().and()
          .formLogin()
-             .loginPage("/login")
-             .loginProcessingUrl("/perform_login")
-             .defaultSuccessUrl("/accounts", true)
-             .failureUrl("/asdasd")
+         .loginPage("/login")
+             .defaultSuccessUrl("/account", true)
+             .failureUrl("/login?error")
              .and()
          .logout()
-             .permitAll();
+         	 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+         	 .logoutSuccessUrl("/login");
 
 	    }
 }

@@ -1,5 +1,7 @@
 package com.epam.payments.controller;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,10 +21,10 @@ public class AccountController {
 	}
 	
 	@GetMapping("/account")
-	public String getAccountStatus(Model model) {
+	public String getAccountStatus(HttpServletRequest request, Model model) {
 		AccountStatus status = accountsStatusService.findById(1);
 		model.addAttribute("status", status);
-		return "page";
+		return "";
 	}
 
 	

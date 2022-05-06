@@ -14,9 +14,9 @@ import lombok.Data;
 public class UserType {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	private  int id;
 	
 	@Column(name="name_en")
-	private String name;
+	private  String name;
 
 }

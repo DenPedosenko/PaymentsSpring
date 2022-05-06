@@ -27,12 +27,12 @@ public class User {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	 
-	@Column(name="first_name")
-	@NotBlank(message = "Name cannot be blank")
+	@Column(name="first_name") 
+	@NotBlank(message = "First name cannot be blank")
 	private String firstName;
 	
 	@Column(name="last_name")
-	@NotBlank(message = "Name cannot be blank")
+	@NotBlank(message = "Last name cannot be blank")
 	private String lastName;
 	
 	@NotBlank(message = "Email cannot be blank")
