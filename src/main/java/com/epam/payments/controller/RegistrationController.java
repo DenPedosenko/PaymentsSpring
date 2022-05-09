@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import com.epam.payments.model.User;
 import com.epam.payments.model.UserStatus;
 import com.epam.payments.model.UserType;
+import com.epam.payments.service.SecurityService;
 import com.epam.payments.service.UserService;
 
 @Controller
@@ -23,10 +24,12 @@ public class RegistrationController {
 	private EntityManager entityManager;
 	
 	private final UserService userService;
+	private final SecurityService securityService;
 	
 	@Autowired
-	public RegistrationController(UserService userService) {
+	public RegistrationController(UserService userService, SecurityService securityService) {
 		this.userService = userService;
+		this.securityService = securityService;
 	}
 	
 	@GetMapping("/registration")
@@ -46,8 +49,9 @@ public class RegistrationController {
 		newUser.setUserStatus(entityManager.getReference(UserStatus.class, 1));
 		newUser.setUserType(entityManager.getReference(UserType.class, 1));
 		userService.saveUser(newUser);
+		securityService.autoLogin(newUser.getEmail(), newUser.getPassword());
 		
-		return "redirect:/account";
+		return "redirect:/";
 		
 	}
 
