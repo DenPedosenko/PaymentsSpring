@@ -8,48 +8,45 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+
+import com.epam.payments.service.CustomUserDetailsService;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
 	@Autowired
-	private UserDetailsService userDetailsService;
+	private CustomUserDetailsService userDetailsService;
 
 	@Override
 	public void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.userDetailsService(userDetailsService);
 	}
+	
 
 	@Bean
 	public AuthenticationManager customAuthenticationManager() throws Exception {
 		return authenticationManager();
 	}
 
-	@Bean
-	public PasswordEncoder passwordEncoder() {
-		return NoOpPasswordEncoder.getInstance();
-	}
-
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.authorizeRequests()
+		http
+		.authorizeRequests()
 			.antMatchers("/registration").permitAll()
 			.antMatchers("/").authenticated()
 			.antMatchers("/users").hasRole("Admin")
+			.antMatchers("/requests").hasRole("Admin")
 			.and()
 		.formLogin()
-				.loginPage("/login")
-				.loginProcessingUrl("/authenticateTheUser")
-				.permitAll()
-				.defaultSuccessUrl("/", true)
-				.and()
+			.loginPage("/login")
+			.loginProcessingUrl("/authenticateTheUser").permitAll()
+			.defaultSuccessUrl("/", true)
+			.and()
 		.logout()
-				.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-				.and()
+			.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+			.and()
 		.exceptionHandling()
 			.accessDeniedPage("/access-denied");
 

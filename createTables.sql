@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS users (
   `last_name` VARCHAR(50) NULL,
   `first_name` VARCHAR(50) NULL,
   `email` VARCHAR(100) NOT NULL,
-  `user_password` VARCHAR(32) NOT NULL,
+  `user_password` VARCHAR(68) NOT NULL,
   `user_type_id` INT NOT NULL,
   `user_status_id` INT NOT NULL,
     FOREIGN KEY (`user_type_id`) REFERENCES `user_types` (`id`) ON DELETE RESTRICT,

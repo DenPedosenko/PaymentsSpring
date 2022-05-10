@@ -1,0 +1,41 @@
+<html xmlns:th="https://www.w3.org/1999/xhtml">
+<div th:fragment="user" class="container-fluid">
+	<nav class="navbar navbar-expand-lg navbar-light bg-light">
+		<div class="container-fluid">
+			<a class="navbar-brand" th:href="@{/}"> <img
+				th:src="@{/img/logo.png}" alt="logo" width="130" height="32"
+				class="d-inline-block align-text-top">
+			</a>
+			<div class="collapse navbar-collapse" id="navbarNav">
+				<ul class="navbar-nav">
+					<li class="nav-item dropdown"><a
+						class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
+						role="button" data-bs-toggle="dropdown" aria-expanded="false"
+						th:text="#{lang.change}"></a>
+						<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+							<li><a class="dropdown-item" href="?lang=en"  th:text="#{general.english}"></a></li>
+							<li><a class="dropdown-item" href="?lang=ua" th:text="#{general.ukrainian}"></a></li>
+						</ul></li>
+					<li class="nav-item"><a class="nav-link active"
+						aria-current="page" th:href="@{/}" th:text="#{header.main}"></a></li>
+					<li class="nav-item"><a class="nav-link" th:href="@{/users}"
+						th:text="#{header.users}"></a></li>
+					<li class="nav-item"><a class="nav-link"
+						th:href="@{/requests}" th:text="#{header.requests}"></a></li>
+				</ul>
+			</div>
+			<div class="btn-group">
+				<button class="btn btn-secondary dropdown-toggle" type="button"
+					id="defaultDropdown" data-bs-toggle="dropdown"
+					data-bs-auto-close="true" aria-expanded="false">
+					<img th:src="@{/img/defaultUserLogo.png}" alt="userLogo">
+				</button>
+				<ul class="dropdown-menu dropdown-menu-end"
+					aria-labelledby="defaultDropdown">
+					<li><a class="dropdown-item" href="logout"
+						th:text="#{general.logout}"></a></li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+</div>

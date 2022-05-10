@@ -12,7 +12,6 @@ import com.epam.payments.service.AccountsStatusService;
 
 @Controller
 public class AccountController {
-	
 	private AccountsStatusService accountsStatusService;
 	
 	@Autowired
@@ -26,7 +25,4 @@ public class AccountController {
 		model.addAttribute("status", status);
 		return "";
 	}
-
-	
-
 }

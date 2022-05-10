@@ -12,13 +12,13 @@ VALUES ('Blocked', 'Заблокированный');
 
 # Users inserts
 INSERT INTO users(first_name, last_name, email, user_password, user_type_id, user_status_id)
-VALUES ('Gendalf', 'Gray', 'the_gratest_mag@example.com', '7777', 2, 1);
+VALUES ('Gendalf', 'Gray', 'the_gratest_mag@example.com', '$2a$10$09KLGzlOPfsMgkRE//DD7ezB/QT814i6cs/yc41QiI4VfmFSdaipi', 2, 1);
 INSERT INTO users(first_name, last_name, email, user_password, user_type_id, user_status_id)
-VALUES ('Aragorn', 'Elessar', 'elessar@example.com', '1111', 2, 1);
+VALUES ('Aragorn', 'Elessar', 'elessar@example.com', '$2a$10$9BupTB3F1RXcMFRc8ALwW.HxRM2TakJYnEdI16Kx0tbA66FMOiMDS', 2, 1);
 INSERT INTO users(first_name, last_name, email, user_password, user_type_id, user_status_id)
-VALUES ('Frodo', 'Bagins', 'mister_frodo@example.com', '1111', 1, 1);
+VALUES ('Frodo', 'Bagins', 'mister_frodo@example.com', '$2a$10$9BupTB3F1RXcMFRc8ALwW.HxRM2TakJYnEdI16Kx0tbA66FMOiMDS', 1, 1);
 INSERT INTO users(first_name, last_name, email, user_password, user_type_id, user_status_id)
-VALUES ('Sauron', 'Maia', 'the_dark_lord@example.com', '6666', 1, 2);
+VALUES ('Sauron', 'Maia', 'the_dark_lord@example.com', '$2a$10$9BupTB3F1RXcMFRc8ALwW.HxRM2TakJYnEdI16Kx0tbA66FMOiMDS', 1, 2);
 
 #Account_status inserts
 INSERT INTO account_statuses(name_en, name_ua)

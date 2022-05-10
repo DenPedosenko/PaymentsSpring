@@ -1,7 +1,6 @@
 package com.epam.payments.controller;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,46 +12,41 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.epam.payments.model.User;
-import com.epam.payments.model.UserStatus;
-import com.epam.payments.model.UserType;
+import com.epam.payments.service.CustomUserDetailsService;
 import com.epam.payments.service.SecurityService;
-import com.epam.payments.service.UserService;
 
 @Controller
 public class RegistrationController {
-	@PersistenceContext
-	private EntityManager entityManager;
-	
-	private final UserService userService;
 	private final SecurityService securityService;
+	private final CustomUserDetailsService userDetailsService;
 	
 	@Autowired
-	public RegistrationController(UserService userService, SecurityService securityService) {
-		this.userService = userService;
+	public RegistrationController(SecurityService securityService, CustomUserDetailsService userDetailsService) {
 		this.securityService = securityService;
+		this.userDetailsService = userDetailsService;
 	}
-	
-	@GetMapping("/registration")
-    public String registrateForm(Model model) {
-		model.addAttribute("user", new User());
-        return "registration";
-    }
-	
-	
 
-	@PostMapping("/registration")
-	public String registrateUser(@Valid @ModelAttribute("user") User newUser, BindingResult result){
-		 if (result.hasErrors()) {
-	            return "registration";
-	    }
-		
-		newUser.setUserStatus(entityManager.getReference(UserStatus.class, 1));
-		newUser.setUserType(entityManager.getReference(UserType.class, 1));
-		userService.saveUser(newUser);
-		securityService.autoLogin(newUser.getEmail(), newUser.getPassword());
-		
+	@GetMapping("/registration")
+	public String registrateForm(Model model) {
+		model.addAttribute("user", new User());
+		return "registration";
+	}
+
+	@PostMapping("/processRegistration")
+	public String processRegistration(@Valid @ModelAttribute("user") User newUser, BindingResult result, Model model, HttpServletRequest request) {
+		if (result.hasErrors()) {
+			return "registration";
+		}
+		User existing = userDetailsService.findByEmail(newUser.getEmail());
+		if (existing != null) {
+			model.addAttribute("user", new User());
+			return "redirect:registration?error=UAE";
+		}
+		userDetailsService.save(newUser);
+		securityService.autoLogin(request, newUser.getEmail(), newUser.getPassword());
+
 		return "redirect:/";
-		
+
 	}
 
 }

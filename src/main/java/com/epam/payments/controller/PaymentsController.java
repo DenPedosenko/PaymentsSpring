@@ -18,8 +18,7 @@ public class PaymentsController {
 	}
 	
 	@GetMapping("/payments")
-	public String getPayments(Model model) {
-		
+	public String getPayments(Model model) {	
 		return "";
 	}
 	

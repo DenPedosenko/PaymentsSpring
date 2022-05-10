@@ -1,7 +1,9 @@
 package com.epam.payments.service;
 
-public interface SecurityService {
-    String findLoggedInUsername();
+import javax.servlet.http.HttpServletRequest;
 
-    void autoLogin(String email, String password);
+public interface SecurityService {
+	String findLoggedInUsername();
+
+	void autoLogin(HttpServletRequest request, String email, String password);
 }
