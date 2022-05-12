@@ -59,14 +59,13 @@
 								<td th:text="${userRequest.getAccount().getName()}"></td>
 								<td>
 									<div class="btn-group">
-										<a th:href="@{?dismissRequest=__${userRequest.getId()}__}"
+										<a th:href="@{dismissRequest?id=__${userRequest.getId()}__}"
 											class="btn btn-danger " aria-current="page" th:text = "#{admin.dismiss}"></a>
-										<a th:href="@{?acceptRequest=__${userRequest.getId()}__}"
+										<a th:href="@{acceptRequest?id=__${userRequest.getId()}__}"
 											class="btn btn-primary" th:text=#{admin.accept}></a>
 									</div>
 								</td>
 							</tr>
-
 						</tbody>
 					</table>
 				</div>

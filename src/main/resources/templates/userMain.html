@@ -13,8 +13,10 @@
 						role="button" data-bs-toggle="dropdown" aria-expanded="false"
 						th:text="#{lang.change}"></a>
 						<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-							<li><a class="dropdown-item" href="?lang=en"  th:text="#{general.english}"></a></li>
-							<li><a class="dropdown-item" href="?lang=ua" th:text="#{general.ukrainian}"></a></li>
+							<li><a class="dropdown-item" href="?lang=en"
+								th:text="#{general.english}"></a></li>
+							<li><a class="dropdown-item" href="?lang=ua"
+								th:text="#{general.ukrainian}"></a></li>
 						</ul></li>
 					<li class="nav-item"><a class="nav-link active"
 						aria-current="page" th:href="@{/}" th:text="#{header.main}"></a></li>
@@ -38,4 +40,214 @@
 			</div>
 		</div>
 	</nav>
+	<div th:switch="${#strings.toString(param.operationStatus)}">
+		<h2 th:case='alreadyCreated' class="text-center text-danger"
+			th:text="#{operations.already_created}"></h2>
+		<h2 th:case="unblockedRequestSent" class="text-center text-danger"
+			th:text="#{operations.unblocked_request_sent}"></h2>
+	</div>
+	<h1 th:text="#{wigets.header}"></h1>
+	<div class="container">
+		<div class="row ms-2">
+			<div th:each="card : ${cards}" class="col-sm-4">
+				<div class="card">
+					<div class="card-header" th:text="${card.getAccount().getName()}"></div>
+					<div class="card-body">
+						<h5 class="card-title" th:text="#{cards.balance (${card.getAccount().getBalance()})}">
+							
+						</h5>
+						<div class="card-text">
+							<h3
+								th:text="${card.getCardNumber().replaceAll('(.{4})', '$0 ').trim()}"></h3>
+							<div class="hstack mb-2">
+								<div class="card-text me-1" th:text="${card.getExpDate()}"></div>
+								<div class="vr"></div>
+								<div class="card-text ms-1" th:text="${card.getCvv()}"></div>
+							</div>
+							<div th:if="${card.getAccount().getAccountStatus().getId() == 1}">
+								<button type="button" class="btn btn-primary me-3"
+									data-bs-toggle="modal"
+									th:data-bs-target="${'#addFundsModal' + card.getId()}"
+									th:text="#{general.add_funds}"></button>
+								<button type="button" class="btn btn-danger"
+									data-bs-toggle="modal"
+									th:data-bs-target="${'#blockCardModal'+card.getId()}"
+									th:text="#{general.block}"></button>
+							</div>
+							<div
+								th:unless="${card.getAccount().getAccountStatus().getId() == 1}">
+								<button class="btn btn-secondary" data-bs-toggle="modal"
+									th:data-bs-target="${'#unblockCardModal'+card.getId()}"
+									th:text="#{general.unblock}"></button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal fade" th:id="${'addFundsModal' + card.getId()}"
+					tabindex="-1" aria-labelledby="exampleModalLabel"
+					aria-hidden="true">
+					<div class="modal-dialog">
+						<form th:action="@{addFunds?id=__${card.getAccount().getId()}__}"
+							method="post">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h5 class="modal-title" id="exampleModalLabel"
+										th:text=#{general.add_funds}></h5>
+									<button type="button" class="btn-close" data-bs-dismiss="modal"
+										aria-label="Close"></button>
+								</div>
+								<div class="modal-body">
+									<div class="mb-3">
+										<label for="amount_funds" class="form-label"
+											th:text="#{general.add_funds_text}"></label> 
+											<input
+											type="number" class="form-control" step="0.01"
+											aria-label="Amount (to the nearest dollar)" name="amount"
+											required>
+									</div>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-secondary"
+										data-bs-dismiss="modal" th:text="#{button.cancel}"></button>
+									<input type="submit" class="btn btn-primary" name="continue"
+										th:value="#{button.continue}">
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+				<div class="modal fade" th:id="${'blockCardModal'+card.getId()}"
+					tabindex="-1" aria-labelledby="exampleModalLabel"
+					aria-hidden="true">
+					<div class="modal-dialog">
+						<form th:action="@{blockCard?id=__${card.getAccount().getId()}__}"
+							method="post">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h5 class="modal-title" id="exampleModalLabel"
+										th:text="#{cards.block_header}"></h5>
+									<button type="button" class="btn-close" data-bs-dismiss="modal"
+										aria-label="Close"></button>
+								</div>
+								<div class="modal-body">
+									<p th:text="#{cards.block_text}"></p>
+									<h4 th:text="${card}"></h4>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-secondary"
+										data-bs-dismiss="modal" th:text="#{button.no}"></button>
+									<input type="submit" class="btn btn-primary" name="block"
+										th:value="#{button.yes}">
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+				<div class="modal fade" th:id="${'unblockCardModal'+card.getId()}"
+					tabindex="-1" aria-labelledby="exampleModalLabel"
+					aria-hidden="true">
+					<div class="modal-dialog">
+						<form
+							th:action="@{unblockCard?id=__${card.getAccount().getId()}__}"
+							method="post">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h5 class="modal-title" id="exampleModalLabel"
+										th:text="cards.unblock_header"></h5>
+									<button type="button" class="btn-close" data-bs-dismiss="modal"
+										aria-label="Close"></button>
+								</div>
+								<div class="modal-body">
+									<p th:text="#{cards.unblock_text}"></p>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-secondary"
+										data-bs-dismiss="modal" th:text="#{button.no}"></button>
+									<input type="submit" class="btn btn-primary" name="unblock"
+										th:value="#{button.yes}">
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="mt-2">
+		<h1 th:text="#{main.operations_header}"></h1>
+	</div>
+	<div class="container mt-2">
+		<div th:each="key : ${payments.keySet()}" class="row">
+			<table class="table table-hover">
+				<thead>
+					<tr>
+						<th class="col-4" scope="col" th:text="${key}"></th>
+						<th class="col-4" scope="col"></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="payment : ${payments.get([key])}">
+						<td th:text="${payment.getUserAccount().getName()}"></td>
+						<td th:text=${payment.getPaymentType().getName()}></td>
+						<td th:text=${payment.getPaymentStatus().getName()}></td>
+						<td th:text=${payment.getAmount()}></td>
+						<td><a href="#" data-bs-toggle="modal"
+							th:data-bs-target="${'#paymentModal'+payment.getId()}"
+							th:text="#{payment.repeat}"></a>
+							<div class="modal fade" th:id="${'paymentModal'+payment.getId()}"
+								tabindex="-1" aria-labelledby="paymentModalLabel"
+								aria-hidden="true">
+								<div class="modal-dialog">
+									<form th:action="@{/payments}" method="post">
+										<div class="modal-content">
+											<div class="modal-header">
+												<h5 class="modal-title" id="exampleModalLabel" th:text="#{header.payment}"></h5>
+												<button type="button" class="btn-close"
+													data-bs-dismiss="modal" aria-label="Close"></button>
+											</div>
+											<div class="modal-body">
+												<label for="basic-url" class="form-label"
+													th:text="#{payment.sender}"></label>
+												<div class="input-group mb-3">
+													<select
+														th:with="accounts = ${payment.getUser().getAccounts()}"
+														class="form-select" name="account"
+														aria-label="Default select example">
+														<option
+															th:each="account : ${accounts}"
+															th:value=${account.getId()}
+															th:selected="${account eq payment.getUserAccount()}"
+															th:text=${account.getName()}></option>
+													</select>
+												</div>
+												<label for="basic-url" class="form-label" th:text=#{payment.recipient}></label>
+												<div class="input-group mb-3">
+													<select class="form-select" name="payment_type"
+														aria-label="Default select example">
+														<option value="+payment.getPaymentType().getId()+"
+															selected th:text=${payment.getPaymentType().getName()}></option>
+													</select>
+												</div>
+												<div class="input-group mb-3">
+													<span class="input-group-text">$</span> 
+													<input type="number" class="form-control" step="0.01" th:value="${payment.getAmount()}"
+														name="amount" required>
+												</div>
+											</div>
+											<div class="modal-footer">
+												<input type="submit" class="btn btn-secondary" name="save"
+													th:value="#{button.save}">
+												<input type="submit" class="btn btn-primary" name="continue"
+													th:value="#{button.continue}">
+											</div>
+										</div>
+									</form>
+								</div>
+							</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
 </div>
