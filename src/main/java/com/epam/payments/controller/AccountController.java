@@ -5,7 +5,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.epam.payments.model.UserAccount;
 import com.epam.payments.service.AccountService;
 
 @Controller
@@ -14,10 +13,14 @@ public class AccountController {
 	private AccountService accountService;
 	
 	@PostMapping("/addFunds")
-	public String getAccountStatus(Double amount, @RequestParam int id) {
-		UserAccount account = accountService.findById(id);
-		account.setBalance(account.getBalance() + amount);
-		accountService.save(account);
+	public String addFunds(Double amount, @RequestParam int id) {
+		accountService.increaseAccountBalance(id, amount);
+		return "redirect:/";
+	}
+	
+	@PostMapping("/blockCard")
+	public String blockUserAccount(@RequestParam int id) {
+		accountService.changeAccountStatusToBlocked(id);
 		return "redirect:/";
 	}
 }

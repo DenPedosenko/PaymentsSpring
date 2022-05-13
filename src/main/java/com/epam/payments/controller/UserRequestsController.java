@@ -1,45 +1,46 @@
 package com.epam.payments.controller;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.epam.payments.model.AccountStatus;
-import com.epam.payments.model.Request;
-import com.epam.payments.model.RequestStatus;
+import com.epam.payments.model.User;
 import com.epam.payments.model.UserAccount;
-import com.epam.payments.model.statuses.UserAccountStatuses;
-import com.epam.payments.model.statuses.UserRequestStatuses;
-import com.epam.payments.repository.UserRequestsRepository;
+import com.epam.payments.service.UserRequestService;
+import com.epam.payments.service.UserService;
 
 @Controller
 public class UserRequestsController {
+	private UserRequestService requestService;
+	private UserService userService;
+	
 	
 	@Autowired
-	private UserRequestsRepository userRequestsRepository;
-
-	@PersistenceContext
-	private EntityManager entityManager;
+	public UserRequestsController(UserRequestService requestService, UserService userService) {
+		this.requestService = requestService;
+		this.userService = userService;
+	}
 	
 	@GetMapping("/dismissRequest")
-	private String dismissRequest(@RequestParam int id) {
-		Request request = userRequestsRepository.getById(id);
-		request.setStatus(entityManager.getReference(RequestStatus.class, UserRequestStatuses.CLOSED.getId()));
-		userRequestsRepository.save(request);
+	private String dismissUserUnlockRequest(@RequestParam int id) {
+		requestService.changeRequestStatusToClosed(id);
 		return "redirect:/";	
 	}
 	
 	@GetMapping("/acceptRequest")
-	private String acceptRequest(@RequestParam int id) {
-		Request request = userRequestsRepository.getById(id);
-		UserAccount account = request.getAccount();
-		account.setAccountStatus(entityManager.getReference(AccountStatus.class, UserAccountStatuses.ACTIVE.getId()));
-		request.setStatus(entityManager.getReference(RequestStatus.class, UserRequestStatuses.CLOSED.getId()));
-		userRequestsRepository.save(request);
+	private String acceptUserUnlockRequest(@RequestParam int id) {
+		requestService.acceptUserRequest(id);
 		return "redirect:/";	
+	}
+	
+	@PostMapping("/unblockCard")
+	private String createUserUnlockRequest(@RequestParam(name = "id") int accountId, Authentication authentication) {
+		User user = userService.findByEmail(authentication.getName());
+		UserAccount account = user.getAccounts().stream().filter(a -> a.getId() == accountId).findFirst().orElse(new UserAccount());
+		String result = requestService.createUserUnlockRequest(user, account);
+		return "redirect:/"+result;
 	}
 }

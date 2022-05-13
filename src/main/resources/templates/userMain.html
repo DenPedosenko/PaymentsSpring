@@ -20,10 +20,12 @@
 						</ul></li>
 					<li class="nav-item"><a class="nav-link active"
 						aria-current="page" th:href="@{/}" th:text="#{header.main}"></a></li>
-					<li class="nav-item"><a class="nav-link" th:href="@{/users}"
-						th:text="#{header.users}"></a></li>
 					<li class="nav-item"><a class="nav-link"
-						th:href="@{/requests}" th:text="#{header.requests}"></a></li>
+						th:href="@{/payments}" th:text="#{header.payments}"></a></li>
+					<li class="nav-item"><a class="nav-link"
+						th:href="@{/operations}" th:text="#{header.operations}"></a></li>
+					<li class="nav-item"><a class="nav-link"
+						th:href="@{/accounts}" th:text="#{header.accounts}"></a></li>
 				</ul>
 			</div>
 			<div class="btn-group">
@@ -198,7 +200,7 @@
 								tabindex="-1" aria-labelledby="paymentModalLabel"
 								aria-hidden="true">
 								<div class="modal-dialog">
-									<form th:action="@{/payments}" method="post">
+									<form th:action="@{/repeatPayment}" method="post">
 										<div class="modal-content">
 											<div class="modal-header">
 												<h5 class="modal-title" id="exampleModalLabel" th:text="#{header.payment}"></h5>
@@ -211,7 +213,7 @@
 												<div class="input-group mb-3">
 													<select
 														th:with="accounts = ${payment.getUser().getAccounts()}"
-														class="form-select" name="account"
+														class="form-select" name="accountId"
 														aria-label="Default select example">
 														<option
 															th:each="account : ${accounts}"
@@ -222,9 +224,9 @@
 												</div>
 												<label for="basic-url" class="form-label" th:text=#{payment.recipient}></label>
 												<div class="input-group mb-3">
-													<select class="form-select" name="payment_type"
+													<select class="form-select" name="paymentTypeId"
 														aria-label="Default select example">
-														<option value="+payment.getPaymentType().getId()+"
+														<option th:value="${payment.getPaymentType().getId()}"
 															selected th:text=${payment.getPaymentType().getName()}></option>
 													</select>
 												</div>
