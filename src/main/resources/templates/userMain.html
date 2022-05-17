@@ -47,16 +47,24 @@
 			th:text="#{operations.already_created}"></h2>
 		<h2 th:case="unblockedRequestSent" class="text-center text-danger"
 			th:text="#{operations.unblocked_request_sent}"></h2>
+		<h2 th:case='success' class="text-center text-success"
+			th:text="#{operations.payment_success}"></h2>
+		<h2 th:case="save" class="text-center text-success"
+			th:text="#{operations.payment_save(#{header.operations})}"></h2>
+		<h2 th:case="error" class="text-center text-danger"
+			th:text="#{operations.payment_error}"></h2>
 	</div>
 	<h1 th:text="#{wigets.header}"></h1>
 	<div class="container">
 		<div class="row ms-2">
 			<div th:each="card : ${cards}" class="col-sm-4">
 				<div class="card">
-					<div class="card-header" th:text="${card.getAccount().getName(locale)}"></div>
+					<div class="card-header"
+						th:text="${card.getAccount().getName(locale)}"></div>
 					<div class="card-body">
-						<h5 class="card-title" th:text="#{cards.balance (${card.getAccount().getBalance()})}">
-							
+						<h5 class="card-title"
+							th:text="#{cards.balance (${card.getAccount().getBalance()})}">
+
 						</h5>
 						<div class="card-text">
 							<h3
@@ -101,8 +109,7 @@
 								<div class="modal-body">
 									<div class="mb-3">
 										<label for="amount_funds" class="form-label"
-											th:text="#{general.add_funds_text}"></label> 
-											<input
+											th:text="#{general.add_funds_text}"></label> <input
 											type="number" class="form-control" step="0.01"
 											aria-label="Amount (to the nearest dollar)" name="amount"
 											required>
@@ -203,7 +210,8 @@
 									<form th:action="@{/repeatPayment}" method="post">
 										<div class="modal-content">
 											<div class="modal-header">
-												<h5 class="modal-title" id="exampleModalLabel" th:text="#{header.payment}"></h5>
+												<h5 class="modal-title" id="exampleModalLabel"
+													th:text="#{header.payment}"></h5>
 												<button type="button" class="btn-close"
 													data-bs-dismiss="modal" aria-label="Close"></button>
 											</div>
@@ -215,38 +223,38 @@
 														th:with="accounts = ${payment.getUser().getAccounts()}"
 														class="form-select" name="accountId"
 														aria-label="Default select example">
-														<option
-															th:each="account : ${accounts}"
+														<option th:each="account : ${accounts}"
 															th:value=${account.getId()}
 															th:selected="${account eq payment.getUserAccount()}"
 															th:text=${account.getName(locale)}></option>
 													</select>
 												</div>
-												<label for="basic-url" class="form-label" th:text=#{payment.recipient}></label>
+												<label for="basic-url" class="form-label"
+													th:text=#{payment.recipient}></label>
 												<div class="input-group mb-3">
 													<select class="form-select" name="paymentTypeId"
 														aria-label="Default select example">
 														<option th:value="${payment.getPaymentType().getId()}"
-															selected th:text=${payment.getPaymentType().getName(locale)}></option>
+															selected
+															th:text=${payment.getPaymentType().getName(locale)}></option>
 													</select>
 												</div>
 												<div class="input-group mb-3">
-													<span class="input-group-text">$</span> 
-													<input type="number" class="form-control" step="0.01" th:value="${payment.getAmount()}"
-														name="amount" required>
+													<span class="input-group-text">$</span> <input
+														type="number" class="form-control" step="0.01"
+														th:value="${payment.getAmount()}" name="amount" required>
 												</div>
 											</div>
 											<div class="modal-footer">
 												<input type="submit" class="btn btn-secondary" name="save"
-													th:value="#{button.save}">
-												<input type="submit" class="btn btn-primary" name="continue"
+													th:value="#{button.save}"> <input type="submit"
+													class="btn btn-primary" name="continue"
 													th:value="#{button.continue}">
 											</div>
 										</div>
 									</form>
 								</div>
-							</div>
-						</td>
+							</div></td>
 					</tr>
 				</tbody>
 			</table>

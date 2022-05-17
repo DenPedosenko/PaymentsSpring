@@ -1,7 +1,13 @@
 package com.epam.payments.service;
 
+import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.epam.payments.model.User;
 import com.epam.payments.model.UserAccount;
 import com.epam.payments.model.statuses.UserAccountStatuses;
 import com.epam.payments.repository.AccountRepository;
@@ -13,6 +19,7 @@ public class AccountService {
 	private AccountRepository accountRepository;
 	private AccountStatusRepository accountStatusRepository;
 	
+	@Autowired
 	public AccountService(AccountRepository accountRepository, AccountStatusRepository accountStatusRepository) {
 		this.accountRepository = accountRepository;
 		this.accountStatusRepository = accountStatusRepository;
@@ -36,6 +43,10 @@ public class AccountService {
 		UserAccount account = accountRepository.getById(id);
 		account.setAccountStatus(accountStatusRepository.getById(UserAccountStatuses.BLOCKED.getId()));
 		accountRepository.save(account);
+	}
+	
+	public List<UserAccount> getActiveAccounts(User user){
+		return user.getAccounts().stream().filter(account -> account.getAccountStatus().getId() != UserAccountStatuses.BLOCKED.getId()).collect(Collectors.toList());
 	}
 	
 	
