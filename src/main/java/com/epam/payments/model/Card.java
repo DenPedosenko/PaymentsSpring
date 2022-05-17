@@ -10,6 +10,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.springframework.context.i18n.LocaleContextHolder;
+
 import lombok.Data;
 
 @Data
@@ -30,7 +32,7 @@ public class Card {
 
 	@Override
 	public String toString() {
-		return account.getName() + " Card ****" + cardNumber.substring(12)+"   Balance: "+account.getBalance();
+		return account.getName(LocaleContextHolder.getLocale().toString()) + " Card ****" + cardNumber.substring(12)+"   Balance: "+account.getBalance();
 	}
 
 }

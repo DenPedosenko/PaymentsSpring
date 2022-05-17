@@ -8,6 +8,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
@@ -45,12 +46,14 @@ public class MainPagePrepearerService {
 		Map<String, List<Payment>> payments = paymentsService.getUserPaymentsByStatus(user, entityManager.getReference(PaymentStatus.class, PaymentsStatuses.SENT.getId()));
 		model.addAttribute("cards", cards);
 		model.addAttribute("payments", payments);
+		model.addAttribute("locale", LocaleContextHolder.getLocale());
 	}
 
 	public void prepearAdminMain(Model model) {
 		List<Request> requests = userRequestsRepository.findAllByStatus(
 				entityManager.getReference(RequestStatus.class, UserRequestStatuses.ACTIVE.getId()));
 		model.addAttribute("requests", requests);
+		model.addAttribute("locale", LocaleContextHolder.getLocale());
 	}
 
 

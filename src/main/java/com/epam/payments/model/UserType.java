@@ -16,7 +16,7 @@ public class UserType {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private  int id;
 	
-	@Column(name="name_en")
+	@Column(name="name")
 	private  String name;
 
 }

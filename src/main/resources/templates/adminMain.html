@@ -54,9 +54,9 @@
 						</thead>
 						<tbody>
 							<tr th:each="userRequest: ${requests}">
-								<th scope="row" th:text="Lfnf"></th>
+								<th scope="row" th:text="${#temporals.format(userRequest.getDate(), 'dd-MM-yyyy HH:mm')}"></th>
 								<td th:text="${userRequest.getUser().getUserName()}"></td>
-								<td th:text="${userRequest.getAccount().getName()}"></td>
+								<td th:text="${userRequest.getAccount().getName(locale)}"></td>
 								<td>
 									<div class="btn-group">
 										<a th:href="@{dismissRequest?id=__${userRequest.getId()}__}"

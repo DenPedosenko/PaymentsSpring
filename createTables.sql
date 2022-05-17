@@ -3,9 +3,8 @@
 -- -----------------------------------------------------
 
 CREATE TABLE IF NOT EXISTS user_types (
-  `id`      INTEGER PRIMARY KEY AUTO_INCREMENT,
-  `name_ua` VARCHAR(50) NOT NULL,
-  `name_en` VARCHAR(50) NOT NULL
+  `id` INTEGER PRIMARY KEY AUTO_INCREMENT,
+  `name` VARCHAR(50) NOT NULL
 );
 
 -- -----------------------------------------------------
@@ -14,9 +13,20 @@ CREATE TABLE IF NOT EXISTS user_types (
 
 CREATE TABLE IF NOT EXISTS user_statuses (
   `id`      INTEGER PRIMARY KEY AUTO_INCREMENT,
-  `name_ua` VARCHAR(50) NOT NULL,
-  `name_en` VARCHAR(50) NOT NULL
+  `name` VARCHAR(50) NOT NULL
   );
+
+-- -----------------------------------------------------
+-- Table `Payments`.`localized_user_status`
+-- -----------------------------------------------------
+
+CREATE TABLE IF NOT EXISTS localized_user_statuses (
+  `id` INTEGER NOT NULL,
+  `locale` varchar(5) NOT NULL,
+  `name` VARCHAR(50) NOT NULL,
+  primary key (id, locale),
+  FOREIGN KEY (`id`) REFERENCES `user_statuses` (`id`) ON DELETE RESTRICT
+   );
 
 -- -----------------------------------------------------
 -- Table `Payments`.`user`
@@ -40,17 +50,37 @@ CREATE TABLE IF NOT EXISTS users (
 
 CREATE TABLE IF NOT EXISTS payment_statuses (
   `id` INTEGER PRIMARY KEY AUTO_INCREMENT,
-  `name_ua` VARCHAR(50) NOT NULL,
-  `name_en` VARCHAR(50) NOT NULL
+  `name` VARCHAR(50) NOT NULL
   );
   -- -----------------------------------------------------
+-- Table `Payments`.`localized_payment_status`
+-- -----------------------------------------------------
+
+CREATE TABLE IF NOT EXISTS localized_payment_statuses (
+  `id` INTEGER NOT NULL,
+  `locale` varchar(5) NOT NULL,
+  `name` VARCHAR(50) NOT NULL,
+  primary key (id, locale),
+  FOREIGN KEY (`id`) REFERENCES `payment_statuses` (`id`) ON DELETE RESTRICT
+  );
+-- -----------------------------------------------------
 -- Table `Payments`.`payment_type`
 -- -----------------------------------------------------
 
 CREATE TABLE IF NOT EXISTS payment_types (
   `id` INTEGER PRIMARY KEY AUTO_INCREMENT,
-  `name_ua` VARCHAR(50) NOT NULL,
-  `name_en` VARCHAR(50) NOT NULL
+  `name` VARCHAR(50) NOT NULL
+  );
+  
+-- -----------------------------------------------------
+-- Table `Payments`.`localized_payment_type`
+-- -----------------------------------------------------
+  CREATE TABLE IF NOT EXISTS localized_payment_types (
+  `id` INTEGER NOT NULL,
+  `locale` varchar(5) NOT NULL,
+  `name` VARCHAR(50) NOT NULL,
+  primary key (id, locale),
+  FOREIGN KEY (`id`) REFERENCES `payment_types` (`id`) ON DELETE RESTRICT
   );
 
 
@@ -60,8 +90,19 @@ CREATE TABLE IF NOT EXISTS payment_types (
 
 CREATE TABLE IF NOT EXISTS account_statuses (
   `id` INTEGER PRIMARY KEY AUTO_INCREMENT,
-  `name_ua` VARCHAR(50) NOT NULL,
-  `name_en` VARCHAR(50) NOT NULL
+  `name` VARCHAR(50) NOT NULL
+  );
+
+-- -----------------------------------------------------
+-- Table `Payments`.`localized_account_status`
+-- -----------------------------------------------------
+
+CREATE TABLE IF NOT EXISTS localized_account_statuses (
+   `id` INTEGER NOT NULL,
+  `locale` varchar(5) NOT NULL,
+  `name` VARCHAR(50) NOT NULL,
+  primary key (id, locale),
+  FOREIGN KEY (`id`) REFERENCES `account_statuses` (`id`) ON DELETE RESTRICT
   );
 
 
@@ -71,14 +112,26 @@ CREATE TABLE IF NOT EXISTS account_statuses (
 
 CREATE TABLE IF NOT EXISTS accounts (
   `id` INTEGER PRIMARY KEY AUTO_INCREMENT,
-  `name_ua` VARCHAR(100) NOT NULL,
-  `name_en` VARCHAR(100) NOT NULL,
+  `name` VARCHAR(100) NOT NULL,
   `user_id` INT NOT NULL,
   `account_status_id` INT NOT NULL,
   `balance` DECIMAL (10, 2) NOT NULL,
     FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
     FOREIGN KEY (`account_status_id`) REFERENCES `account_statuses` (`id`) ON DELETE RESTRICT
     );
+    
+-- -----------------------------------------------------
+-- Table `Payments`.`localized_accounts`
+-- -----------------------------------------------------
+
+CREATE TABLE IF NOT EXISTS localized_accounts (
+  `id` INTEGER NOT NULL,
+  `locale` varchar(5) NOT NULL,
+  `name` VARCHAR(50) NOT NULL,
+  primary key (id, locale),
+  FOREIGN KEY (`id`) REFERENCES `accounts` (`id`) ON DELETE RESTRICT
+  );
+
 
 
 -- -----------------------------------------------------
@@ -105,10 +158,21 @@ CREATE TABLE IF NOT EXISTS payments (
 
 CREATE TABLE IF NOT EXISTS request_statuses (
   `id` INTEGER PRIMARY KEY AUTO_INCREMENT,
-  `name_ua` VARCHAR(50) NOT NULL,
-  `name_en` VARCHAR(50) NOT NULL
+  `name` VARCHAR(50) NOT NULL
   );
   
+-- -----------------------------------------------------
+-- Table `Payments`.`request_status`
+-- -----------------------------------------------------
+
+CREATE TABLE IF NOT EXISTS localized_request_statuses (
+ `id` INTEGER NOT NULL,
+  `locale` varchar(5) NOT NULL,
+  `name` VARCHAR(50) NOT NULL,
+  primary key (id, locale),
+  FOREIGN KEY (`id`) REFERENCES `request_statuses` (`id`) ON DELETE RESTRICT
+  );
+
 -- -----------------------------------------------------
 -- Table `Payments`.`requests`
 -- -----------------------------------------------------

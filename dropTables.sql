@@ -1,11 +1,17 @@
 DROP TABLE IF EXISTS `Payments`.`payments` ;
 DROP TABLE IF EXISTS `Payments`.`cards` ;
 DROP TABLE IF EXISTS `Payments`.`requests` ;
+DROP TABLE IF EXISTS `Payments`.`localized_accounts` ;
 DROP TABLE IF EXISTS `Payments`.`accounts` ;
+DROP TABLE IF EXISTS `Payments`.`localized_request_statuses` ;
 DROP TABLE IF EXISTS `Payments`.`request_statuses` ;
+DROP TABLE IF EXISTS `Payments`.`localized_account_statuses` ;
 DROP TABLE IF EXISTS `Payments`.`account_statuses` ;
 DROP TABLE IF EXISTS `Payments`.`users` ;
 DROP TABLE IF EXISTS `Payments`.`user_types` ;
+DROP TABLE IF EXISTS `Payments`.`localized_user_statuses` ;
 DROP TABLE IF EXISTS `Payments`.`user_statuses` ;
+DROP TABLE IF EXISTS `Payments`.`localized_payment_statuses` ;
 DROP TABLE IF EXISTS `Payments`.`payment_statuses` ;
+DROP TABLE IF EXISTS `Payments`.`localized_payment_types` ;
 DROP TABLE IF EXISTS `Payments`.`payment_types` ;
