@@ -14,7 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class UserValidator implements Validator {
+public class UserValidator implements Validator{
 	private final UserService userService;
 
 	@Autowired
