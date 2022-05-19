@@ -1,12 +1,6 @@
 package com.epam.payments.controller;
 
-import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.List;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -26,6 +20,7 @@ import com.epam.payments.repository.PaymentTypeRepository;
 import com.epam.payments.service.AccountService;
 import com.epam.payments.service.PaymentsService;
 import com.epam.payments.service.UserService;
+
 
 @Controller
 public class PaymentsController {
@@ -80,7 +75,7 @@ public class PaymentsController {
 		if (req.getParameter("save") != null) {
 			result = paymentsService.savePayment(user, account, paymentType, amount);
 		} else if (req.getParameter("continue") != null) {
-			result = paymentsService.proccessPayment(user, account, paymentType, amount);
+			result = paymentsService.proccessNewPayment(user, account, paymentType, amount);
 		}
 		return result;
 	}

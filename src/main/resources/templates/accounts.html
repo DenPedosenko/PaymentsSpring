@@ -32,9 +32,9 @@
 							th:href="@{/}" th:text="#{header.main}"></a></li>
 						<li class="nav-item"><a class="nav-link "
 							th:href="@{/payments}" th:text="#{header.payments}"></a></li>
-						<li class="nav-item"><a class="nav-link active"
-							th:href="@{/operations}" th:text="#{header.operations}"></a></li>
 						<li class="nav-item"><a class="nav-link"
+							th:href="@{/operations}" th:text="#{header.operations}"></a></li>
+						<li class="nav-item"><a class="nav-link active"
 							th:href="@{/accounts}" th:text="#{header.accounts}"></a></li>
 					</ul>
 				</div>
@@ -53,20 +53,14 @@
 			</div>
 		</nav>
 
-		<h1 th:text="#{header.operations}"></h1>
-		<div th:switch="${#strings.toString(param.operationStatus)}">
-			<h2 th:case='success' class="text-center text-success"
-				th:text="#{operations.payment_success}"></h2>
-			<h2 th:case="error" class="text-center text-danger"
-				th:text="#{operations.payment_error}"></h2>
-		</div>
+		<h1 th:text="#{header.accounts}"></h1>
 		<div class="container">
 			<table class="table table-sm align-middle mt-2">
 				<thead>
 					<tr>
 						<th scope="col" role="button" th:with="orderBy=${orderBy}, ascending = ${ascending}"
-							th:onclick="'document.location = \'' +@{/operations?orderBy=id&ascending={value}(value = ${orderBy == 'date' or orderBy == 'paymentStatus'? 'true' : ascending =='true'?'false':'true'})}+'\''">
-							[[#{operations.number}]]
+							th:onclick="'document.location = \'' +@{/accounts?orderBy=id&ascending={value}(value = ${orderBy == 'name' or orderBy == 'balance'? 'true' : ascending =='true'?'false':'true'})}+'\''">
+							[[#{accounts.number}]]
 							 <svg
 								th:if="${orderBy == 'id' and ascending == 'true'}"
 								xmlns="http://www.w3.org/2000/svg" width="16" height="16"
@@ -82,82 +76,49 @@
 									</svg>
 						</th>
 						<th scope="col" role="button"  th:with="orderBy=${orderBy}, ascending = ${ascending}"
-							th:onclick="'document.location = \'' +@{/operations?orderBy=date&ascending={value}(value = ${orderBy == 'id' or orderBy == 'paymentStatus'? 'true' : ascending =='true'?'false':'true'})}+'\''">
-							[[#{operations.date}]] <svg
-								th:if="${orderBy == 'date' and ascending == 'true'}"
+							th:onclick="'document.location = \'' +@{/accounts?orderBy=name&ascending={value}(value = ${orderBy == 'id' or orderBy == 'balance'? 'true' : ascending =='true'?'false':'true'})}+'\''">
+							[[#{accounts.name}]] <svg
+								th:if="${orderBy == 'name' and ascending == 'true'}"
 								xmlns="http://www.w3.org/2000/svg" width="16" height="16"
 								fill="currentColor" class="bi bi-arrow-up" viewBox="0 0 16 16">
   										<path fill-rule="evenodd"
 									d="M8 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L7.5 2.707V14.5a.5.5 0 0 0 .5.5z" />
 									</svg> <svg
-								th:if="${orderBy == 'date' and ascending == 'false'}"
+								th:if="${orderBy == 'name' and ascending == 'false'}"
 								xmlns="http://www.w3.org/2000/svg" width="16" height="16"
 								fill="currentColor" class="bi bi-arrow-down" viewBox="0 0 16 16">
   										<path fill-rule="evenodd"
 									d="M8 1a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L7.5 13.293V1.5A.5.5 0 0 1 8 1z" />
 									</svg>
 						</th>
-						<th scope="col" th:text="#{operations.account}"></th>
-						<th scope="col" th:text="#{operations.payment_type}"></th>
+						<th scope="col" th:text="#{accounts.status}"></th>
 						<th scope="col" role="button" th:with="orderBy=${orderBy}, ascending = ${ascending}"
-							th:onclick="'document.location = \'' +@{/operations?orderBy=paymentStatus&ascending={value}(value = ${orderBy == 'id' or orderBy == 'date'? 'true' : ascending =='true'?'false':'true'})}+'\''">
-							[[#{operations.payment_status}]] <svg
-								th:if="${orderBy == 'paymentStatus' and ascending == 'true'}"
+							th:onclick="'document.location = \'' +@{/accounts?orderBy=balance&ascending={value}(value = ${orderBy == 'id' or orderBy == 'name'? 'true' : ascending =='true'?'false':'true'})}+'\''">
+							[[#{accounts.balance}]] <svg
+								th:if="${orderBy == 'balance' and ascending == 'true'}"
 								xmlns="http://www.w3.org/2000/svg" width="16" height="16"
 								fill="currentColor" class="bi bi-arrow-up" viewBox="0 0 16 16">
   										<path fill-rule="evenodd"
 									d="M8 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L7.5 2.707V14.5a.5.5 0 0 0 .5.5z" />
 									</svg> <svg
-								th:if="${orderBy == 'paymentStatus' and ascending == 'false'}"
+								th:if="${orderBy == 'balance' and ascending == 'false'}"
 								xmlns="http://www.w3.org/2000/svg" width="16" height="16"
 								fill="currentColor" class="bi bi-arrow-down" viewBox="0 0 16 16">
   										<path fill-rule="evenodd"
 									d="M8 1a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L7.5 13.293V1.5A.5.5 0 0 1 8 1z" />
 									</svg>
 						</th>
-						<th scope="col" th:text="#{operations.amount}"></th>
 					</tr>
 				</thead>
 				<tbody>
-					<tr th:each="operation: ${operations}">
-						<th scope="row" th:text="${operation.getId()}"></th>
-						<td th:text="${operation.getDate()}"></td>
-						<td th:text="${operation.getUserAccount().getName(locale)}"></td>
-						<td th:text="${operation.getPaymentType().getName(locale)}"></td>
-						<td th:text="${operation.getPaymentStatus().getName(locale)}"></td>
-						<td th:text="${operation.getAmount()}"></td>
-						<td th:if="${operation.getPaymentStatus().getId() == 1}"><a
-							class="btn btn-primary"
-							th:href="@{/operations/pay?id=__${operation.getId() }__}"
-							th:text="#{operation.pay}"></a></td>
-						<td th:unless="${operation.getPaymentStatus().getId() == 1}"></td>
+					<tr th:each="account: ${accounts}">
+						<th scope="row" th:text="${account.getId()}"></th>
+						<td th:text="${account.getName(locale)}"></td>
+						<td th:text="${account.getStatus().getName(locale)}"></td>
+						<td th:text="${account.getBalance()}"></td>
 					</tr>
 				</tbody>
 			</table>
-			<nav aria-label="Page navigation">
-				<ul class="pagination justify-content-end">
-					<li th:if="${page == 1}" class="page-item disabled"><span
-						class="page-link">Previous</span></li>
-					<li th:unless="${page == 1}" class="page-item"><a
-						class="page-link"
-						th:href="@{/operations?orderBy=__${orderBy}__&ascending=__${ascending}__&page=__${page-1}__}">Previous</a></li>
-					<li th:each="i: ${#numbers.sequence(0, size-1)}"
-						class="page-item"
-						th:classappend="${page == i+1}?active:''"><a
-						class="page-link"
-						th:href="@{/operations?orderBy=__${orderBy}__&ascending=__${ascending}__&page=__${i+1}__}"
-						th:text="${i+1}"></a></li>
-					<li
-						th:if="${page + 1 > size }"
-						class="page-item disabled"><span class="page-link">Next</span></li>
-
-					<li
-						th:unless="${page + 1 > size}"
-						class="page-item "><a class="page-link"
-						th:href="@{/operations?language=orderBy=__${orderBy}__&ascending=__${ascending}__&page=__${page+1}__}">Next</a>
-					</li>
-				</ul>
-			</nav>
 		</div>
 	</div>
 </body>

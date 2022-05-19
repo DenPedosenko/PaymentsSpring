@@ -24,7 +24,7 @@ public class Payment {
 	private int id;
 	
 	@Column(name = "creating_date")
-	private LocalDateTime creationDate;
+	private LocalDateTime date;
 	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="payment_type_id")

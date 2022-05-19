@@ -12,6 +12,7 @@ import com.epam.payments.model.UserAccount;
 public interface PaymentsService {
 	public Map<String, List<Payment>> getUserPaymentsCollectedByDate(User user);
 	public Map<String, List<Payment>> getUserPaymentsByStatus(User user, PaymentStatus paymentStatus);
-	public String proccessPayment(User user, UserAccount account, PaymentType type, double amount);
+	public String proccessNewPayment(User user, UserAccount account, PaymentType type, double amount);
+	public String proccessPayment(Payment payment);
 	public String savePayment(User user, UserAccount account, PaymentType type, double amount);
 }

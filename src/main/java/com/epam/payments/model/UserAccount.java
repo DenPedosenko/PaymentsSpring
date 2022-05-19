@@ -47,10 +47,11 @@ public class UserAccount {
 	
 	@ManyToOne
 	@JoinColumn(name="account_status_id")
-	private AccountStatus accountStatus;
+	private AccountStatus status;
 	
 	@OneToOne(mappedBy = "account")
 	private Card card;
+	private String name;
 
 	public String getName(String locale) {
 		return localizations.get(locale).getName();
@@ -58,7 +59,7 @@ public class UserAccount {
 	
 	@Override
 	public String toString() {
-		return "UserAccount [id=" + id + ", name=" + getName(LocaleContextHolder.getLocale().toString()) + ", balance=" + balance + ", accountStatus=" + accountStatus
+		return "UserAccount [id=" + id + ", name=" + getName(LocaleContextHolder.getLocale().toString()) + ", balance=" + balance + ", accountStatus=" + status
 				+ ", card=" + card + "]";
 	}
 

@@ -74,7 +74,7 @@
 								<div class="vr"></div>
 								<div class="card-text ms-1" th:text="${card.getCvv()}"></div>
 							</div>
-							<div th:if="${card.getAccount().getAccountStatus().getId() == 1}">
+							<div th:if="${card.getAccount().getStatus().getId() == 1}">
 								<button type="button" class="btn btn-primary me-3"
 									data-bs-toggle="modal"
 									th:data-bs-target="${'#addFundsModal' + card.getId()}"
@@ -84,8 +84,7 @@
 									th:data-bs-target="${'#blockCardModal'+card.getId()}"
 									th:text="#{general.block}"></button>
 							</div>
-							<div
-								th:unless="${card.getAccount().getAccountStatus().getId() == 1}">
+							<div th:unless="${card.getAccount().getStatus().getId() == 1}">
 								<button class="btn btn-secondary" data-bs-toggle="modal"
 									th:data-bs-target="${'#unblockCardModal'+card.getId()}"
 									th:text="#{general.unblock}"></button>
@@ -254,7 +253,8 @@
 										</div>
 									</form>
 								</div>
-							</div></td>
+							</div>
+						</td>
 					</tr>
 				</tbody>
 			</table>

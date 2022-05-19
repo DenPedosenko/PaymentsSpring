@@ -41,12 +41,12 @@ public class AccountService {
 
 	public void changeAccountStatusToBlocked(int id) {
 		UserAccount account = accountRepository.getById(id);
-		account.setAccountStatus(accountStatusRepository.getById(UserAccountStatuses.BLOCKED.getId()));
+		account.setStatus(accountStatusRepository.getById(UserAccountStatuses.BLOCKED.getId()));
 		accountRepository.save(account);
 	}
 	
 	public List<UserAccount> getActiveAccounts(User user){
-		return user.getAccounts().stream().filter(account -> account.getAccountStatus().getId() != UserAccountStatuses.BLOCKED.getId()).collect(Collectors.toList());
+		return user.getAccounts().stream().filter(account -> account.getStatus().getId() != UserAccountStatuses.BLOCKED.getId()).collect(Collectors.toList());
 	}
 	
 	

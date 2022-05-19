@@ -49,7 +49,7 @@ public class PaymentsServiceImpl implements PaymentsService {
 	public Map<String, List<Payment>> getUserPaymentsByStatus(User user, PaymentStatus paymentStatus) {
 		Map<String, List<Payment>> payments = new LinkedHashMap<String, List<Payment>>();
 		List<Payment> orderedByDatePayments = paymentRepository.findAllByUserAndPaymentStatus(user, paymentStatus)
-				.stream().sorted(Comparator.comparing(Payment::getCreationDate).reversed()).collect(Collectors.toList());
+				.stream().sorted(Comparator.comparing(Payment::getDate).reversed()).collect(Collectors.toList());
 		for (Payment payment : orderedByDatePayments) {
 			putPayment(payments, payment);
 		}
@@ -57,7 +57,7 @@ public class PaymentsServiceImpl implements PaymentsService {
 	}
 
 	private static void putPayment(Map<String, List<Payment>> payments, Payment payment) {
-		String date = DateTimeFormatter.ofPattern("yyyy-MM-dd").format(payment.getCreationDate());
+		String date = DateTimeFormatter.ofPattern("yyyy-MM-dd").format(payment.getDate());
 		payments.put(date, getPaymentsByDate(payments, payment, date));
 	}
 
@@ -74,11 +74,11 @@ public class PaymentsServiceImpl implements PaymentsService {
 	}
 
 	@Override
-	public String proccessPayment(User user, UserAccount account, PaymentType type, double amount) {
+	public String proccessNewPayment(User user, UserAccount account, PaymentType type, double amount) {
 		if (account.getBalance() - amount >= 0) {
 			account.setBalance(account.getBalance() - amount);
 			Payment payment = new Payment();
-			payment.setCreationDate(LocalDateTime.now());
+			payment.setDate(LocalDateTime.now());
 			payment.setPaymentStatus(
 					paymentStatusRepository.findById(PaymentsStatuses.SENT.getId()).orElse(new PaymentStatus()));
 			payment.setPaymentType(type);
@@ -95,7 +95,7 @@ public class PaymentsServiceImpl implements PaymentsService {
 	@Override
 	public String savePayment(User user, UserAccount account, PaymentType type, double amount) {
 		Payment payment = new Payment();
-		payment.setCreationDate(LocalDateTime.now());
+		payment.setDate(LocalDateTime.now());
 		payment.setPaymentStatus(
 				paymentStatusRepository.findById(PaymentsStatuses.PREPEARED.getId()).orElse(new PaymentStatus()));
 		payment.setPaymentType(type);
@@ -104,5 +104,18 @@ public class PaymentsServiceImpl implements PaymentsService {
 		payment.setAmount(amount);
 		paymentRepository.save(payment);
 		return "?operationStatus=save";
+	}
+
+	@Override
+	public String proccessPayment(Payment payment) {
+		if (payment.getUserAccount().getBalance() - payment.getAmount() >= 0) {
+			payment.getUserAccount().setBalance(payment.getUserAccount().getBalance() - payment.getAmount());
+			payment.setPaymentStatus(
+					paymentStatusRepository.findById(PaymentsStatuses.SENT.getId()).orElse(new PaymentStatus()));
+			paymentRepository.save(payment);
+			return "?operationStatus=success";
+		} else {
+			return "?operationStatus=error";
+		}
 	}
 }
