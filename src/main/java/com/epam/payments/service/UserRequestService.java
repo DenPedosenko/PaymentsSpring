@@ -37,7 +37,7 @@ public class UserRequestService {
 	public void acceptUserRequest(int id) {
 		Request request = userRequestsRepository.getById(id);
 		UserAccount account = request.getAccount();
-		account.setAccountStatus(accountStatusRepository.getById(UserAccountStatuses.ACTIVE.getId()));
+		account.setStatus(accountStatusRepository.getById(UserAccountStatuses.ACTIVE.getId()));
 		request.setStatus(requestStatusRepository.getById(UserRequestStatuses.CLOSED.getId()));
 		userRequestsRepository.save(request);
 	}

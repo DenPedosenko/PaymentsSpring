@@ -34,13 +34,13 @@ public class AccountService {
 	}
 	
 	public void increaseAccountBalance(int id, double amount) {
-		UserAccount account = accountRepository.getById(id);
+		UserAccount account = findById(id);
 		account.setBalance(account.getBalance() + amount);
 		accountRepository.save(account);
 	}
 
 	public void changeAccountStatusToBlocked(int id) {
-		UserAccount account = accountRepository.getById(id);
+		UserAccount account = findById(id);
 		account.setStatus(accountStatusRepository.getById(UserAccountStatuses.BLOCKED.getId()));
 		accountRepository.save(account);
 	}
