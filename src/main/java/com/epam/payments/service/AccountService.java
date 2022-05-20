@@ -37,12 +37,6 @@ public class AccountService {
 		account.setBalance(account.getBalance() + amount);
 		accountRepository.save(account);
 	}
-
-	public void changeAccountStatusToBlocked(int id) {
-		UserAccount account = findById(id);
-		account.setStatus(accountStatusRepository.getById(UserAccountStatuses.BLOCKED.getId()));
-		accountRepository.save(account);
-	}
 	
 	public List<UserAccount> getActiveAccounts(User user){
 		return user.getAccounts().stream().filter(account -> account.getStatus().getId() != UserAccountStatuses.BLOCKED.getId()).collect(Collectors.toList());

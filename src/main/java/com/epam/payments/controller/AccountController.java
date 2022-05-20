@@ -54,17 +54,17 @@ public class AccountController {
 
 	@PostMapping("/blockCard")
 	public String blockUserAccount(@RequestParam int id) {
-		accountService.changeAccountStatusToBlocked(id);
+		accountService.blockAccount(id);
 		return "redirect:/";
 	}
 	
 	@GetMapping("users/blockAccount")
-	public String blockUser(@RequestParam Integer id) {
+	public String blockAccount(@RequestParam Integer id) {
 		accountService.blockAccount(id);
 		return "redirect:/users";
 	}
 	@GetMapping("users/unlockAccount")
-	public String unlockUser(@RequestParam Integer id) {
+	public String unlockAccount(@RequestParam Integer id) {
 		accountService.unlockAccount(id);
 		return "redirect:/users";
 	}
