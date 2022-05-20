@@ -30,10 +30,12 @@
 							</ul></li>
 						<li class="nav-item"><a class="nav-link" aria-current="page"
 							th:href="@{/}" th:text="#{header.main}"></a></li>
-						<li class="nav-item"><a class="nav-link active"
-							th:href="@{/users}" th:text="#{header.users}"></a></li>
+						<li class="nav-item"><a class="nav-link "
+							th:href="@{/payments}" th:text="#{header.payments}"></a></li>
 						<li class="nav-item"><a class="nav-link"
-							th:href="@{/requests}" th:text="#{header.requests}"></a></li>
+							th:href="@{/operations}" th:text="#{header.operations}"></a></li>
+						<li class="nav-item"><a class="nav-link active"
+							th:href="@{/accounts}" th:text="#{header.accounts}"></a></li>
 					</ul>
 				</div>
 				<div class="btn-group">
@@ -50,111 +52,86 @@
 				</div>
 			</div>
 		</nav>
-		<h1 th:text="#{header.users}"></h1>
+
+		<h1 th:text="#{header.requests}"></h1>
 		<div class="container">
-			<table class="table table-striped table-sm align-middle mt-2">
+			<table class="table table-sm align-middle mt-2">
 				<thead>
 					<tr>
-						<th scope="col" role="button"
-							th:with="orderBy=${orderBy}, ascending = ${ascending}"
-							th:onclick="'document.location = \'' +@{/users?orderBy=id&ascending={value}(value = ${orderBy == 'lastName' or orderBy == 'userStatus'? 'true' : ascending =='true'?'false':'true'})}+'\''">
-							[[#{operations.number}]] <svg
+						<th scope="col" role="button" th:with="orderBy=${orderBy}, ascending = ${ascending}"
+							th:onclick="'document.location = \'' +@{/requests?orderBy=id&ascending={value}(value = ${orderBy == 'date' or orderBy == 'status'? 'true' : ascending =='true'?'false':'true'})}+'\''">
+							[[#{operations.number}]]
+							 <svg
 								th:if="${orderBy == 'id' and ascending == 'true'}"
 								xmlns="http://www.w3.org/2000/svg" width="16" height="16"
 								fill="currentColor" class="bi bi-arrow-up" viewBox="0 0 16 16">
   								<path fill-rule="evenodd"
 									d="M8 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L7.5 2.707V14.5a.5.5 0 0 0 .5.5z" />
-									</svg> <svg th:if="${orderBy == 'id' and ascending == 'false'}"
+									</svg> <svg
+								th:if="${orderBy == 'id' and ascending == 'false'}"
 								xmlns="http://www.w3.org/2000/svg" width="16" height="16"
 								fill="currentColor" class="bi bi-arrow-down" viewBox="0 0 16 16">
   										<path fill-rule="evenodd"
 									d="M8 1a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L7.5 13.293V1.5A.5.5 0 0 1 8 1z" />
 									</svg>
 						</th>
-						<th scope="col" role="button"
-							th:with="orderBy=${orderBy}, ascending = ${ascending}"
-							th:onclick="'document.location = \'' +@{/users?orderBy=lastName&ascending={value}(value = ${orderBy == 'id' or orderBy == 'userStatus'? 'true' : ascending =='true'?'false':'true'})}+'\''">
-							[[#{users.name}]] <svg
-								th:if="${orderBy == 'lastName' and ascending == 'true'}"
-								xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-								fill="currentColor" class="bi bi-arrow-up" viewBox="0 0 16 16">
-  										<path fill-rule="evenodd"
-									d="M8 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L7.5 2.707V14.5a.5.5 0 0 0 .5.5z" />
-									</svg> <svg th:if="${orderBy == 'lastName' and ascending == 'false'}"
-								xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-								fill="currentColor" class="bi bi-arrow-down" viewBox="0 0 16 16">
-  										<path fill-rule="evenodd"
-									d="M8 1a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L7.5 13.293V1.5A.5.5 0 0 1 8 1z" />
-									</svg>
-						</th>
-						<th scope="col" role="button"
-							th:with="orderBy=${orderBy}, ascending = ${ascending}"
-							th:onclick="'document.location = \'' +@{/users?orderBy=userStatus&ascending={value}(value = ${orderBy == 'id' or orderBy == 'lastName'? 'true' : ascending =='true'?'false':'true'})}+'\''">
-							[[#{operations.payment_status}]] <svg
-								th:if="${orderBy == 'userStatus' and ascending == 'true'}"
+						<th scope="col" role="button"  th:with="orderBy=${orderBy}, ascending = ${ascending}"
+							th:onclick="'document.location = \'' +@{/requests?orderBy=date&ascending={value}(value = ${orderBy == 'id' or orderBy == 'status'? 'true' : ascending =='true'?'false':'true'})}+'\''">
+							[[#{operations.date}]] <svg
+								th:if="${orderBy == 'date' and ascending == 'true'}"
 								xmlns="http://www.w3.org/2000/svg" width="16" height="16"
 								fill="currentColor" class="bi bi-arrow-up" viewBox="0 0 16 16">
   										<path fill-rule="evenodd"
 									d="M8 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L7.5 2.707V14.5a.5.5 0 0 0 .5.5z" />
 									</svg> <svg
-								th:if="${orderBy == 'userStatus' and ascending == 'false'}"
+								th:if="${orderBy == 'date' and ascending == 'false'}"
 								xmlns="http://www.w3.org/2000/svg" width="16" height="16"
 								fill="currentColor" class="bi bi-arrow-down" viewBox="0 0 16 16">
   										<path fill-rule="evenodd"
 									d="M8 1a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L7.5 13.293V1.5A.5.5 0 0 1 8 1z" />
 									</svg>
 						</th>
+						<th scope="col" th:text="#{users.name}"></th>
+						<th scope="col" th:text="#{operations.payment_type}"></th>
+						<th scope="col" role="button" th:with="orderBy=${orderBy}, ascending = ${ascending}"
+							th:onclick="'document.location = \'' +@{/requests?orderBy=status&ascending={value}(value = ${orderBy == 'id' or orderBy == 'date'? 'true' : ascending =='true'?'false':'true'})}+'\''">
+							[[#{operations.payment_status}]] <svg
+								th:if="${orderBy == 'status' and ascending == 'true'}"
+								xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+								fill="currentColor" class="bi bi-arrow-up" viewBox="0 0 16 16">
+  										<path fill-rule="evenodd"
+									d="M8 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L7.5 2.707V14.5a.5.5 0 0 0 .5.5z" />
+									</svg> <svg
+								th:if="${orderBy == 'status' and ascending == 'false'}"
+								xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+								fill="currentColor" class="bi bi-arrow-down" viewBox="0 0 16 16">
+  										<path fill-rule="evenodd"
+									d="M8 1a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L7.5 13.293V1.5A.5.5 0 0 1 8 1z" />
+									</svg>
+						</th>
+						<th scope="col" th:text="#{requests.action}"></th>
 					</tr>
 				</thead>
-				<tbody th:each="user : ${users}">
-					<tr>
-						<th class="col-1" scope="row" th:text="${user.getId()}"></th>
-						<td class="col-4" th:text=${user.getUserName()}></td>
-							<td class="col-4"
-							th:text="${user.getUserStatus().getName(locale)}"></td>
-							<td class="col-4"></td>
-									<td th:if="${user.getUserStatus().getId() == 1}" class="col-3"><a
-							class="btn btn-danger"
-							th:href="@{/users/blockUser?id=__${user.getId()}__}"
-							th:text="#{general.block}"></a></td>
-								
-									<td th:unless="${user.getUserStatus().getId() == 1}"
-							class="col-3"><a class="btn btn-success"
-							th:href="@{/users/unlockUser?id=__${user.getId()}__}"
-							th:text="#{general.unlock}"></a></td>
-								
-						</tr>
-						<tr>
-							<td colspan="5" class="p-0">
-								<table class="table table-borderless align-middle mb-0">
-									<thead>
-										<tr>
-										<th class="col-1"></th>
-											<th class="col-4" scope="col" th:text="#{accounts.account}"></th>
-											<th class="col-4" scope="col" th:text="#{accounts.status}"></th>
-											<th class="col-4" scope="col" th:text="#{accounts.balance}"></th>
-										</tr>
-									</thead>
-									<tbody th:each="account : ${user.getAccounts()}">
-											<tr>
-										<td class="col-1"></td>
-												<td class="col-4" th:text="${account.getName(locale)}"></td>
-												<td class="col-4" th:text="${account.getStatus().getName(locale)}"></td>
-												<td class="col-4" th:text="${account.getBalance()}"></td>
-														<td th:if="${account.getStatus().getId() == 1}"
-											class="col-3"><a class="btn btn-danger"
-											th:href="@{/users/blockAccount?id=__${account.getId()}__}"
-											th:text="#{general.block}"></a></td>
-
-														<td th:unless="${account.getStatus().getId() == 1}"
-											class="col-3"><a class="btn btn-success"
-											th:href="@{/users/unlockAccount?id=__${account.getId()}__}"
-											th:text="#{general.unlock}"></a></td>
-											</tr>
-									</tbody>
-								</table>
-							</td>
-						</tr>
+				<tbody>
+					<tr th:each="request :${requests}">
+						<th scope="row" th:text="${request.getId()}"></th>
+						<td th:text="${request.getDate()}"></td>
+						<td th:text="${request.getUser().getUserName()}"></td>
+						<td th:text="${request.getAccount().getName(locale)}"></td>
+						<td th:text="${request.getStatus().getName(locale)}"></td>
+						<td th:if="${request.getStatus().getId() == 1}">
+						<a
+							class="btn btn-primary"
+							th:href="@{/requests/dismissRequest?id=__${request.getId() }__}"
+							th:text="#{admin.dismiss}"></a>	
+						<a
+							class="btn btn-primary"
+							th:href="@{/requests/acceptRequest?id=__${request.getId() }__}"
+							th:text="#{admin.accept}"></a>
+							
+						</td>
+						<td th:unless="${request.getStatus().getId() == 1}"></td>
+					</tr>
 				</tbody>
 			</table>
 			<nav aria-label="Page navigation">
@@ -163,17 +140,21 @@
 						class="page-link">Previous</span></li>
 					<li th:unless="${page == 1}" class="page-item"><a
 						class="page-link"
-						th:href="@{/users?orderBy=__${orderBy}__&ascending=__${ascending}__&page=__${page-1}__}">Previous</a></li>
-					<li th:each="i: ${#numbers.sequence(0, size-1)}" class="page-item"
+						th:href="@{/requests?orderBy=__${orderBy}__&ascending=__${ascending}__&page=__${page-1}__}">Previous</a></li>
+					<li th:each="i: ${#numbers.sequence(0, size-1)}"
+						class="page-item"
 						th:classappend="${page == i+1}?active:''"><a
-							class="page-link"
-							th:href="@{/users?orderBy=__${orderBy}__&ascending=__${ascending}__&page=__${i+1}__}"
-							th:text="${i+1}"></a></li>
-					<li th:if="${page + 1 > size }" class="page-item disabled"><span
-								class="page-link">Next</span></li>
-					<li th:unless="${page + 1 > size}" class="page-item "><a
-								class="page-link"
-								th:href="@{/users?orderBy=__${orderBy}__&ascending=__${ascending}__&page=__${page+1}__}">Next</a>
+						class="page-link"
+						th:href="@{/requests?orderBy=__${orderBy}__&ascending=__${ascending}__&page=__${i+1}__}"
+						th:text="${i+1}"></a></li>
+					<li
+						th:if="${page + 1 > size }"
+						class="page-item disabled"><span class="page-link">Next</span></li>
+
+					<li
+						th:unless="${page + 1 > size}"
+						class="page-item "><a class="page-link"
+						th:href="@{/requests?orderBy=__${orderBy}__&ascending=__${ascending}__&page=__${page+1}__}">Next</a>
 					</li>
 				</ul>
 			</nav>

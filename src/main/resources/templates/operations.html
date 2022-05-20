@@ -154,7 +154,7 @@
 					<li
 						th:unless="${page + 1 > size}"
 						class="page-item "><a class="page-link"
-						th:href="@{/operations?language=orderBy=__${orderBy}__&ascending=__${ascending}__&page=__${page+1}__}">Next</a>
+						th:href="@{/operations?orderBy=__${orderBy}__&ascending=__${ascending}__&page=__${page+1}__}">Next</a>
 					</li>
 				</ul>
 			</nav>

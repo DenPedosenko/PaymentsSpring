@@ -4,9 +4,6 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.i18n.LocaleContextHolder;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -59,5 +56,16 @@ public class AccountController {
 	public String blockUserAccount(@RequestParam int id) {
 		accountService.changeAccountStatusToBlocked(id);
 		return "redirect:/";
+	}
+	
+	@GetMapping("users/blockAccount")
+	public String blockUser(@RequestParam Integer id) {
+		accountService.blockAccount(id);
+		return "redirect:/users";
+	}
+	@GetMapping("users/unlockAccount")
+	public String unlockUser(@RequestParam Integer id) {
+		accountService.unlockAccount(id);
+		return "redirect:/users";
 	}
 }

@@ -50,7 +50,7 @@ public class OperationsController {
 	
 
 	@GetMapping(value = "/operations/pay")
-	public String payPayment(Model model, @RequestParam Integer id) {
+	public String payPayment(@RequestParam Integer id) {
 		Payment payment = paymentRepository.getById(id);
 		String result = paymentsService.proccessPayment(payment);
 		return "redirect:/operations"+result;

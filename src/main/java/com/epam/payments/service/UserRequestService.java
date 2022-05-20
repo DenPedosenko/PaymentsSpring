@@ -3,6 +3,8 @@ package com.epam.payments.service;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.epam.payments.model.Request;
@@ -55,5 +57,10 @@ public class UserRequestService {
 		request.setUser(user);
 		userRequestsRepository.save(request);
 		return "?operationStatus=unblockedRequestSent";
+	}
+	
+	
+	public Page<Request> findAll(Pageable pageable){
+		return userRequestsRepository.findAll(pageable);
 	}
 }

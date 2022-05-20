@@ -1,7 +1,5 @@
 package com.epam.payments.controller;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -18,8 +16,6 @@ public class MainController {
 	public MainController(MainPagePrepearerService prepearService) {
 		this.prepearService = prepearService;
 	}
-
-	private static final Logger LOGGER = LoggerFactory.getLogger(MainController.class);
 
 	@GetMapping("/")
 	public String mainPage(Model model, Authentication authentication) {

@@ -8,7 +8,6 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import com.epam.payments.service.CustomUserDetailsService;
@@ -37,6 +36,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		.authorizeRequests()
 			.antMatchers("/registration").permitAll()
 			.antMatchers("/").authenticated()
+			.antMatchers("/payments").hasRole("User")
+			.antMatchers("/operations").hasRole("User")
+			.antMatchers("/accounts").hasRole("User")
 			.antMatchers("/users").hasRole("Admin")
 			.antMatchers("/requests").hasRole("Admin")
 			.and()
