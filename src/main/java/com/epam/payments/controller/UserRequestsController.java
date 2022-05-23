@@ -46,31 +46,31 @@ public class UserRequestsController {
 	}
 	
 	@GetMapping("/dismissRequest")
-	private String dismissUserUnlockRequest(@RequestParam int id) {
+	public String dismissUserUnlockRequest(@RequestParam int id) {
 		requestService.changeRequestStatusToClosed(id);
 		return "redirect:/";	
 	}
 	
 	@GetMapping("/acceptRequest")
-	private String acceptUserUnlockRequest(@RequestParam int id) {
+	public String acceptUserUnlockRequest(@RequestParam int id) {
 		requestService.acceptUserRequest(id);
 		return "redirect:/";	
 	}
 	
 	@GetMapping("requests/dismissRequest")
-	private String dismissUserUnlockRequestFromRequestPage(@RequestParam int id) {
+	public String dismissUserUnlockRequestFromRequestPage(@RequestParam int id) {
 		requestService.changeRequestStatusToClosed(id);
 		return "redirect:/requests";	
 	}
 	
 	@GetMapping("requests/acceptRequest")
-	private String acceptUserUnlockRequestFromRequestPage(@RequestParam int id) {
+	public String acceptUserUnlockRequestFromRequestPage(@RequestParam int id) {
 		requestService.acceptUserRequest(id);
 		return "redirect:/requests";	
 	}
 	
 	@PostMapping("/unblockCard")
-	private String createUserUnlockRequest(@RequestParam(name = "id") int accountId, Authentication authentication) {
+	public String createUserUnlockRequest(@RequestParam(name = "id") int accountId, Authentication authentication) {
 		User user = userService.findByEmail(authentication.getName());
 		UserAccount account = user.getAccounts().stream().filter(a -> a.getId() == accountId).findFirst().orElse(new UserAccount());
 		String result = requestService.createUserUnlockRequest(user, account);

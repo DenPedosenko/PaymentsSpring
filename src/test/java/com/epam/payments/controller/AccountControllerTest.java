@@ -47,10 +47,13 @@ public class AccountControllerTest {
 	@InjectMocks
 	AccountController accountController;
 	
+	private final int TEST_ACCOUNT_ID = 1;
+	private final double TEST_AMOUNT = 100.0;
+	
 	@Test
 	public void shouldChangeAccountBalance() {
-		String actual = accountController.addFunds(100.0, 1);	
-		verify(accountService, atLeastOnce()).increaseAccountBalance(1, 100.0);
+		String actual = accountController.addFunds(TEST_AMOUNT, TEST_ACCOUNT_ID);	
+		verify(accountService, atLeastOnce()).increaseAccountBalance(TEST_ACCOUNT_ID, TEST_AMOUNT);
 		assertEquals("redirect:/", actual);
 	}
 	
@@ -63,15 +66,15 @@ public class AccountControllerTest {
 	
 	@Test
 	public void shouldBlockUserAccountPost() {
-		String actual = accountController.blockUserAccount(1);	
-		verify(accountService, atLeastOnce()).blockAccount(1);
+		String actual = accountController.blockUserAccount(TEST_ACCOUNT_ID);	
+		verify(accountService, atLeastOnce()).blockAccount(TEST_ACCOUNT_ID);
 		assertEquals("redirect:/", actual);
 	}
 	
 	@Test
 	public void shouldUnlockUserAccount() {
-		String actual = accountController.unlockAccount(1);	
-		verify(accountService, atLeastOnce()).unlockAccount(1);
+		String actual = accountController.unlockAccount(TEST_ACCOUNT_ID);	
+		verify(accountService, atLeastOnce()).unlockAccount(TEST_ACCOUNT_ID);
 		assertEquals("redirect:/users", actual);
 	}
 	

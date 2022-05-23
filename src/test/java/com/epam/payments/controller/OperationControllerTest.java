@@ -44,6 +44,9 @@ public class OperationControllerTest {
 	@InjectMocks
 	private OperationsController operationController;
 	
+	private final int PAGE_COUNT = 1;
+	private final int TEST_PAYMENT_ID = 1;
+	
 	
 	@Test
 	public void shouldReturnOperations() {
@@ -53,7 +56,7 @@ public class OperationControllerTest {
 		when(authentication.getName()).thenReturn("");
 		when(userService.findByEmail(anyString())).thenReturn(user);
 		
-		String actual = operationController.getOperations(model, "true", "paymentStatus", 1, authentication);
+		String actual = operationController.getOperations(model, "true", "paymentStatus", PAGE_COUNT, authentication);
 		Pageable pageable = PageRequest.of(0, 10, Sort.by("paymentStatus"));
 		verify(paymentRepository, atLeastOnce()).findAllByUser(user, pageable);
 		verify(model, atLeast(5)).addAttribute(anyString(), any());
@@ -63,10 +66,10 @@ public class OperationControllerTest {
 	@Test
 	public void shouldPayPayment() {
 		Payment payment = new Payment();
-		when(paymentRepository.getById(1)).thenReturn(payment);
+		when(paymentRepository.getById(TEST_PAYMENT_ID)).thenReturn(payment);
 		when(paymentsService.proccessPayment(payment)).thenReturn("?operationStatus=success");
-		String actual = operationController.payPayment(1);
-		verify(paymentRepository, atLeastOnce()).getById(1);
+		String actual = operationController.payPayment(TEST_PAYMENT_ID);
+		verify(paymentRepository, atLeastOnce()).getById(TEST_PAYMENT_ID);
 		verify(paymentsService, atLeastOnce()).proccessPayment(payment);
 		
 		assertEquals("redirect:/operations?operationStatus=success", actual);
