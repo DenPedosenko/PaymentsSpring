@@ -1,11 +1,8 @@
 package com.epam.payments.service;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -13,19 +10,29 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.epam.payments.model.User;
-import com.epam.payments.model.UserStatus;
-import com.epam.payments.model.UserType;
+import com.epam.payments.model.statuses.UserStatuses;
+import com.epam.payments.repository.UserStatusRepository;
+import com.epam.payments.repository.UserTypeRepository;
 
 @Service
 public class UserDetailsServiceImpl implements CustomUserDetailsService {
-	@PersistenceContext
-	private EntityManager entityManager;
-	
-	@Autowired
-	private BCryptPasswordEncoder passwordEncoder;
-	@Autowired
-	private  UserService userService;
 
+	
+	private BCryptPasswordEncoder passwordEncoder;
+	private  UserService userService;
+	private UserTypeRepository userTypeRepository;
+	private UserStatusRepository userStatusRepository;
+	
+	private final int USER_TYPE_USER = 1;
+
+	@Autowired
+	public UserDetailsServiceImpl(BCryptPasswordEncoder passwordEncoder, UserService userService,
+			UserTypeRepository userTypeRepository, UserStatusRepository userStatusRepository) {
+		this.passwordEncoder = passwordEncoder;
+		this.userService = userService;
+		this.userTypeRepository = userTypeRepository;
+		this.userStatusRepository = userStatusRepository;
+	}
 
 	@Override
 	@Transactional(readOnly = true)
@@ -52,8 +59,8 @@ public class UserDetailsServiceImpl implements CustomUserDetailsService {
 		newUser.setLastName(user.getLastName());
 		newUser.setEmail(user.getEmail());
 		newUser.setPassword(passwordEncoder.encode(user.getPassword()));
-		newUser.setUserStatus(entityManager.getReference(UserStatus.class, 1));
-		newUser.setUserType(entityManager.getReference(UserType.class, 1));
+		newUser.setUserStatus(userStatusRepository.getById(UserStatuses.ACTIVE.getId()));
+		newUser.setUserType(userTypeRepository.getById(USER_TYPE_USER));
 		userService.saveUser(newUser);
 	}
 }
